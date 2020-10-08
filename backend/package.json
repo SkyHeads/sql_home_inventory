@@ -5,6 +5,9 @@
   "repository": "git@github.com:SkyHeads/sql_home_inventory.git",
   "author": "SkyHeads <skyheads@live.com>",
   "license": "MIT",
+  "scripts": {
+    "migrate": "knex migrate:latest"
+  },
   "dependencies": {
     "dotenv": "^8.2.0",
     "knex": "^0.21.6",
