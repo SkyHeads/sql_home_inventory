@@ -1,8 +1,0 @@
-{
-  "name": "sql-home-inventory",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:SkyHeads/sql_home_inventory.git",
-  "author": "SkyHeads <skyheads@live.com>",
-  "license": "MIT"
-}
