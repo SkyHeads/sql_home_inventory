@@ -15,12 +15,21 @@ function createNameTable(knex, table_name) {
   });
 }
 
+function url(table, columnName) {
+  table.string(columnName, 2000);
+}
+
+function email(table, columnName) {
+  return table.string(columnName, 254);
+}
+
 function references(table, tableName) {
   table
     .integer(`${tableName}_id`)
     .unsigned()
     .references('id')
-    .inTable(tableName);
+    .inTable(tableName)
+    .onDelete('cascade');
 }
 
 /**
@@ -31,7 +40,7 @@ exports.up = async knex => {
   await Promise.all([
     knex.schema.createTable(tableNames.user, table => {
       table.increments().notNullable();
-      table.text('email', 254).notNullable().unique();
+      email(table, 'email').notNullable().unique();
       table.text('name').notNullable();
       table.text('password', 127).notNullable();
       table.dateTime('last_login');
@@ -46,7 +55,7 @@ exports.up = async knex => {
       table.increments().notNullable();
       table.text('name').notNullable().unique();
       table.text('description', 1000);
-      table.text('image_url', 2000);
+      url(table, 'image_url');
       addDefaultColumns(table);
     }),
   ]);
@@ -62,11 +71,22 @@ exports.up = async knex => {
     references(table, 'state');
     references(table, 'country');
   });
+
+  await knex.schema.createTable(tableNames.manufacturer, table => {
+    table.increments().notNullable();
+    table.string('name').notNullable();
+    url(table, 'logo_url');
+    table.string('description', 1000);
+    url(table, 'website_url');
+    email(table, 'email');
+    references(table, 'address');
+  });
 };
 
 exports.down = async knex => {
   await Promise.all(
     [
+      tableNames.manufacturer,
       tableNames.address,
       tableNames.user,
       tableNames.item_type,
