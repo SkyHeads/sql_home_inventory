@@ -6,7 +6,8 @@
   "author": "SkyHeads <skyheads@live.com>",
   "license": "MIT",
   "scripts": {
-    "migrate": "knex migrate:latest"
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
