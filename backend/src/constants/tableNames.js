@@ -5,4 +5,5 @@ module.exports = {
   country: 'country',
   shape: 'shape',
   location: 'location',
+  address: 'address',
 };

@@ -15,6 +15,14 @@ function createNameTable(knex, table_name) {
   });
 }
 
+function references(table, tableName) {
+  table
+    .integer(`${tableName}_id`)
+    .unsigned()
+    .references('id')
+    .inTable(tableName);
+}
+
 /**
  *  @param { Knex } knex
  */
@@ -42,11 +50,24 @@ exports.up = async knex => {
       addDefaultColumns(table);
     }),
   ]);
+
+  await knex.schema.createTable(tableNames.address, table => {
+    table.increments().notNullable();
+    table.string('street_address_1', 50).notNullable();
+    table.string('street_address_2', 50);
+    table.string('city', 50).notNullable();
+    table.string('zipcode', 15).notNullable();
+    table.float('latitude').notNullable();
+    table.float('longitude').notNullable();
+    references(table, 'state');
+    references(table, 'country');
+  });
 };
 
 exports.down = async knex => {
   await Promise.all(
     [
+      tableNames.address,
       tableNames.user,
       tableNames.item_type,
       tableNames.state,
